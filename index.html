@@ -11,175 +11,358 @@
     <meta name="apple-mobile-web-app-title" content="Hábitos">
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 30px 20px;
+            padding: 35px 20px;
             background-color: #f5f5f5;
         }
 
+
+        /* ENCABEZADO */
+
         .encabezado {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
         }
 
+
         .titulo {
-            font-size: 38px;
+            font-size: 64px;
             font-weight: bold;
             margin: 0;
         }
 
+
+        /* BOTÓN AGREGAR */
+
         .boton-agregar {
-            font-size: 30px;
-            width: 50px;
-            height: 50px;
+            position: absolute;
+
+            right: 0;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 45px;
+
+            width: 75px;
+            height: 75px;
+
             border: none;
             border-radius: 50%;
+
             cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+
+        /* TABLA */
 
         .tabla {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             margin: auto;
         }
 
+
+        /* CONTENEDOR DE CADA HÁBITO */
+
+        .contenedor-habito {
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* CUADRO DEL HÁBITO */
+
         .fila {
+            flex: 1;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             background-color: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+
+            padding: 25px;
+
+            border-radius: 15px;
         }
 
+
         .nombre-habito {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: bold;
         }
 
+
         .contador {
-            font-size: 20px;
-            margin-right: 10px;
+            font-size: 28px;
+            font-weight: bold;
+
+            margin-right: 15px;
         }
 
+
+        /* BOTÓN +1 */
+
         .boton-sumar {
-            padding: 8px 15px;
-            font-size: 16px;
+            padding: 12px 20px;
+
+            font-size: 22px;
+
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+
             cursor: pointer;
         }
 
-        #mensaje {
-            text-align: center;
-            margin-top: 30px;
+
+        /* BOTÓN REINICIAR DEL HÁBITO */
+
+        .boton-reiniciar {
+            margin-left: 10px;
+
+            font-size: 28px;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <div class="encabezado">
-        <h1 class="titulo">Mis hábitos</h1>
 
-        <button class="boton-agregar" onclick="agregarHabito()">+</button>
+    <!-- TÍTULO Y BOTÓN AGREGAR -->
+
+    <div class="encabezado">
+
+        <h1 class="titulo">
+            Mis hábitos
+        </h1>
+
+
+        <button
+            class="boton-agregar"
+            onclick="agregarHabito()">
+
+            +
+
+        </button>
+
     </div>
 
-    <div id="tabla" class="tabla"></div>
 
-    <p id="mensaje"></p>
+    <!-- LISTA DE HÁBITOS -->
+
+    <div
+        id="tabla"
+        class="tabla">
+    </div>
+
 
 
     <script>
 
+
         // Cargar hábitos guardados
-        let habitos = JSON.parse(localStorage.getItem("habitos")) || [];
+
+        let habitos =
+            JSON.parse(
+                localStorage.getItem("habitos")
+            ) || [];
+
 
         mostrarHabitos();
 
 
-        // Mostrar todos los hábitos
+
+        // Mostrar hábitos
+
         function mostrarHabitos() {
 
-            const tabla = document.getElementById("tabla");
+            const tabla =
+                document.getElementById("tabla");
+
 
             tabla.innerHTML = "";
 
-            habitos.forEach((habito, indice) => {
 
-                const fila = document.createElement("div");
+            habitos.forEach(
+                (habito, indice) => {
 
-                fila.className = "fila";
+                    const contenedor =
+                        document.createElement("div");
 
-                fila.innerHTML = `
-                    <span class="nombre-habito">
-                        ${habito.nombre}
-                    </span>
 
-                    <div>
-                        <span class="contador">
-                            ${habito.contador}
-                        </span>
+                    contenedor.className =
+                        "contenedor-habito";
 
-                        <button class="boton-sumar"
-                                onclick="sumar(${indice})">
-                            +1
+
+                    contenedor.innerHTML = `
+
+                        <div class="fila">
+
+                            <span class="nombre-habito">
+
+                                ${habito.nombre}
+
+                            </span>
+
+
+                            <div>
+
+                                <span class="contador">
+
+                                    ${habito.contador}
+
+                                </span>
+
+
+                                <button
+                                    class="boton-sumar"
+                                    onclick="sumar(${indice})">
+
+                                    +1
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="boton-reiniciar"
+                            onclick="reiniciarHabito(${indice})">
+
+                            ↺
+
                         </button>
-                    </div>
-                `;
 
-                tabla.appendChild(fila);
-            });
+                    `;
+
+
+                    tabla.appendChild(
+                        contenedor
+                    );
+
+                }
+            );
+
         }
 
 
-        // Agregar un nuevo hábito
+
+        // Agregar hábito
+
         function agregarHabito() {
 
-            const nombre = prompt("Escribí el nuevo hábito:");
+            const nombre =
+                prompt(
+                    "Escribí el nuevo hábito:"
+                );
 
-            if (nombre === null || nombre.trim() === "") {
+
+            if (
+                nombre === null ||
+                nombre.trim() === ""
+            ) {
+
                 return;
+
             }
 
+
             const nuevoHabito = {
+
                 nombre: nombre.trim(),
+
                 contador: 0
+
             };
 
-            habitos.push(nuevoHabito);
+
+            habitos.push(
+                nuevoHabito
+            );
+
 
             guardarHabitos();
 
             mostrarHabitos();
+
         }
 
 
-        // Sumar 1 a un hábito
+
+        // Sumar 1
+
         function sumar(indice) {
 
             habitos[indice].contador++;
 
+
             guardarHabitos();
 
             mostrarHabitos();
+
         }
 
 
-        // Guardar en LocalStorage
+
+        // Reiniciar solamente este hábito
+
+        function reiniciarHabito(indice) {
+
+            habitos[indice].contador = 0;
+
+
+            guardarHabitos();
+
+            mostrarHabitos();
+
+        }
+
+
+
+        // Guardar información
+
         function guardarHabitos() {
 
             localStorage.setItem(
+
                 "habitos",
+
                 JSON.stringify(habitos)
+
             );
+
         }
 
     </script>
+
 
 </body>
 </html>
