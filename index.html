@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi aplicación</title>
+</head>
+
+<body>
+
+    <h1>Hola mundo 👋</h1>
+
+    <button onclick="sumar()">Presioname</button>
+
+    <p>Veces presionado: <span id="contador">0</span></p>
+
+    <script>
+        let contador = localStorage.getItem("contador") || 0;
+
+        document.getElementById("contador").textContent = contador;
+
+        function sumar() {
+            contador++;
+            
+            localStorage.setItem("contador", contador);
+
+            document.getElementById("contador").textContent = contador;
+        }
+    </script>
+
+</body>
+</html>
