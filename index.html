@@ -1,34 +1,184 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mi aplicación</title>
+    <title>Mis hábitos</title>
+
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Hábitos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Hábitos">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px 20px;
+            background-color: #f5f5f5;
+        }
+
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .boton-agregar {
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .tabla {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .fila {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .nombre-habito {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .contador {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .boton-sumar {
+            padding: 8px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #mensaje {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Hola mundo 👋</h1>
+    <div class="encabezado">
+        <h1 class="titulo">Mis hábitos</h1>
 
-    <button onclick="sumar()">Presioname</button>
+        <button class="boton-agregar" onclick="agregarHabito()">+</button>
+    </div>
 
-    <p>Veces presionado: <span id="contador">0</span></p>
+    <div id="tabla" class="tabla"></div>
+
+    <p id="mensaje"></p>
+
 
     <script>
-        let contador = localStorage.getItem("contador") || 0;
 
-        document.getElementById("contador").textContent = contador;
+        // Cargar hábitos guardados
+        let habitos = JSON.parse(localStorage.getItem("habitos")) || [];
 
-        function sumar() {
-            contador++;
-            
-            localStorage.setItem("contador", contador);
+        mostrarHabitos();
 
-            document.getElementById("contador").textContent = contador;
+
+        // Mostrar todos los hábitos
+        function mostrarHabitos() {
+
+            const tabla = document.getElementById("tabla");
+
+            tabla.innerHTML = "";
+
+            habitos.forEach((habito, indice) => {
+
+                const fila = document.createElement("div");
+
+                fila.className = "fila";
+
+                fila.innerHTML = `
+                    <span class="nombre-habito">
+                        ${habito.nombre}
+                    </span>
+
+                    <div>
+                        <span class="contador">
+                            ${habito.contador}
+                        </span>
+
+                        <button class="boton-sumar"
+                                onclick="sumar(${indice})">
+                            +1
+                        </button>
+                    </div>
+                `;
+
+                tabla.appendChild(fila);
+            });
         }
+
+
+        // Agregar un nuevo hábito
+        function agregarHabito() {
+
+            const nombre = prompt("Escribí el nuevo hábito:");
+
+            if (nombre === null || nombre.trim() === "") {
+                return;
+            }
+
+            const nuevoHabito = {
+                nombre: nombre.trim(),
+                contador: 0
+            };
+
+            habitos.push(nuevoHabito);
+
+            guardarHabitos();
+
+            mostrarHabitos();
+        }
+
+
+        // Sumar 1 a un hábito
+        function sumar(indice) {
+
+            habitos[indice].contador++;
+
+            guardarHabitos();
+
+            mostrarHabitos();
+        }
+
+
+        // Guardar en LocalStorage
+        function guardarHabitos() {
+
+            localStorage.setItem(
+                "habitos",
+                JSON.stringify(habitos)
+            );
+        }
+
     </script>
 
 </body>
