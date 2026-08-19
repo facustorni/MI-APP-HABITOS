@@ -62,7 +62,7 @@
         }
 
 
-        /* TABLA */
+        /* LISTA */
 
         .tabla {
             width: 100%;
@@ -92,7 +92,6 @@
             height: 58px;
 
             border: none;
-
             background: transparent;
 
             cursor: pointer;
@@ -117,6 +116,15 @@
             padding: 33px;
 
             border-radius: 20px;
+
+            transition: background-color 0.2s;
+        }
+
+
+        /* HÁBITO HECHO */
+
+        .fila.hecho {
+            background-color: #70d47a;
         }
 
 
@@ -126,7 +134,9 @@
         }
 
 
-        .contador {
+        /* RACHA */
+
+        .racha {
             font-size: 36px;
             font-weight: bold;
 
@@ -134,9 +144,9 @@
         }
 
 
-        /* BOTÓN +1 */
+        /* BOTÓN HECHO */
 
-        .boton-sumar {
+        .boton-hecho {
             padding: 16px 26px;
 
             font-size: 29px;
@@ -145,6 +155,11 @@
             border-radius: 13px;
 
             cursor: pointer;
+        }
+
+
+        .boton-hecho:disabled {
+            cursor: default;
         }
 
 
@@ -167,6 +182,63 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+
+        /* TEMPORIZADOR */
+
+        .temporizador-contenedor {
+            margin: 70px auto 20px auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 35px;
+
+            font-weight: bold;
+        }
+
+
+        .tiempo {
+            font-size: 34px;
+        }
+
+
+        .dia {
+            font-size: 34px;
+        }
+
+
+        /* MENSAJE ANTES DE COMENZAR */
+
+        .sin-iniciar {
+            text-align: center;
+
+            margin-top: 70px;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* BOTÓN DE PRUEBA */
+
+        .boton-prueba {
+            display: block;
+
+            margin: 25px auto;
+
+            padding: 15px 25px;
+
+            font-size: 22px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            cursor: pointer;
         }
 
     </style>
@@ -204,38 +276,226 @@
     </div>
 
 
+    <!-- TEMPORIZADOR -->
+
+    <div
+        id="temporizador"
+        class="temporizador-contenedor">
+    </div>
+
+
+    <!-- BOTÓN TEMPORAL DE PRUEBA -->
+
+    <button
+        class="boton-prueba"
+        onclick="avanzarDosHoras()">
+
+        ⏩ +2 horas
+
+    </button>
+
+
 
     <script>
 
 
-        // Cargar hábitos guardados
+        /*
+        =====================================================
+        DATOS
+        =====================================================
+        */
 
-        let habitos =
+
+        let datos =
             JSON.parse(
-                localStorage.getItem("habitos")
-            ) || [];
+                localStorage.getItem("datosHabitos")
+            );
 
 
-        mostrarHabitos();
+        /*
+        Si no existen datos,
+        creamos la estructura inicial.
+        */
+
+        if (!datos) {
+
+            datos = {
+
+                habitos: [],
+
+                inicio: null,
+
+                diaActual: 0,
+
+                desfasePrueba: 0
+
+            };
+
+        }
+
+
+        /*
+        Compatibilidad con datos anteriores
+        */
+
+        if (datos.desfasePrueba === undefined) {
+
+            datos.desfasePrueba = 0;
+
+        }
 
 
 
-        // Mostrar hábitos
+        /*
+        =====================================================
+        INICIO DEL CICLO
+        =====================================================
+        */
+
+
+        function iniciarCiclo() {
+
+            datos.inicio = obtenerTiempo();
+
+            datos.diaActual = 0;
+
+            guardarDatos();
+
+        }
+
+
+
+        /*
+        =====================================================
+        OBTENER TIEMPO
+        =====================================================
+        */
+
+        function obtenerTiempo() {
+
+            return Date.now() +
+                   datos.desfasePrueba;
+
+        }
+
+
+
+        /*
+        =====================================================
+        ACTUALIZAR DÍAS
+        =====================================================
+        */
+
+
+        function actualizarDias() {
+
+
+            if (!datos.inicio) {
+
+                return;
+
+            }
+
+
+            const ahora =
+                obtenerTiempo();
+
+
+            const tiempoTranscurrido =
+                ahora - datos.inicio;
+
+
+            const nuevoDia =
+                Math.floor(
+                    tiempoTranscurrido /
+                    (24 * 60 * 60 * 1000)
+                );
+
+
+            /*
+            Si comenzó un nuevo día
+            */
+
+            if (
+                nuevoDia >
+                datos.diaActual
+            ) {
+
+
+                /*
+                Revisamos cada hábito.
+                */
+
+                datos.habitos.forEach(
+                    habito => {
+
+
+                        /*
+                        Si no hizo el hábito
+                        durante el día anterior,
+                        pierde la racha.
+                        */
+
+                        if (
+                            habito.ultimoDia <
+                            datos.diaActual
+                        ) {
+
+                            habito.racha = 0;
+
+                        }
+
+
+                        /*
+                        Todos vuelven a estar
+                        disponibles.
+                        */
+
+                        habito.hecho = false;
+
+                    }
+                );
+
+
+                datos.diaActual =
+                    nuevoDia;
+
+
+                guardarDatos();
+
+            }
+
+        }
+
+
+
+        /*
+        =====================================================
+        MOSTRAR HÁBITOS
+        =====================================================
+        */
+
 
         function mostrarHabitos() {
 
+
             const tabla =
-                document.getElementById("tabla");
+                document.getElementById(
+                    "tabla"
+                );
 
 
             tabla.innerHTML = "";
 
 
-            habitos.forEach(
+            datos.habitos.forEach(
                 (habito, indice) => {
 
+
                     const contenedor =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
 
                     contenedor.className =
@@ -243,6 +503,7 @@
 
 
                     contenedor.innerHTML = `
+
 
                         <!-- BORRAR -->
 
@@ -257,9 +518,11 @@
 
                         <!-- HÁBITO -->
 
-                        <div class="fila">
+                        <div
+                            class="fila ${habito.hecho ? "hecho" : ""}">
 
-                            <span class="nombre-habito">
+                            <span
+                                class="nombre-habito">
 
                                 ${habito.nombre}
 
@@ -268,18 +531,22 @@
 
                             <div>
 
-                                <span class="contador">
+                                <span
+                                    class="racha">
 
-                                    ${habito.contador}
+                                    🔥 ${habito.racha}
 
                                 </span>
 
 
                                 <button
-                                    class="boton-sumar"
-                                    onclick="sumar(${indice})">
+                                    class="boton-hecho"
+                                    onclick="marcarHabito(${indice})"
+                                    ${habito.hecho ? "disabled" : ""}>
 
-                                    +1
+                                    ${habito.hecho
+                                        ? "✓"
+                                        : "Hecho"}
 
                                 </button>
 
@@ -312,9 +579,87 @@
 
 
 
-        // Agregar hábito
+        /*
+        =====================================================
+        MARCAR HÁBITO
+        =====================================================
+        */
+
+
+        function marcarHabito(indice) {
+
+
+            /*
+            Si todavía no comenzó ningún ciclo,
+            empieza ahora.
+            */
+
+            if (!datos.inicio) {
+
+                iniciarCiclo();
+
+            }
+
+
+            actualizarDias();
+
+
+            const habito =
+                datos.habitos[indice];
+
+
+            /*
+            No permitir marcar dos veces
+            en el mismo día.
+            */
+
+            if (habito.hecho) {
+
+                return;
+
+            }
+
+
+            /*
+            Marcar como hecho.
+            */
+
+            habito.hecho = true;
+
+
+            /*
+            Guardamos en qué día se realizó.
+            */
+
+            habito.ultimoDia =
+                datos.diaActual;
+
+
+            /*
+            Aumentamos la racha.
+            */
+
+            habito.racha++;
+
+
+            guardarDatos();
+
+
+            mostrarHabitos();
+
+        }
+
+
+
+        /*
+        =====================================================
+        AGREGAR HÁBITO
+        =====================================================
+        */
+
 
         function agregarHabito() {
+
 
             const nombre =
                 prompt(
@@ -334,19 +679,28 @@
 
             const nuevoHabito = {
 
-                nombre: nombre.trim(),
+                nombre:
+                    nombre.trim(),
 
-                contador: 0
+                racha:
+                    0,
+
+                hecho:
+                    false,
+
+                ultimoDia:
+                    -1
 
             };
 
 
-            habitos.push(
+            datos.habitos.push(
                 nuevoHabito
             );
 
 
-            guardarHabitos();
+            guardarDatos();
+
 
             mostrarHabitos();
 
@@ -354,29 +708,38 @@
 
 
 
-        // Sumar 1
+        /*
+        =====================================================
+        REINICIAR RACHA
+        =====================================================
+        */
 
-        function sumar(indice) {
-
-            habitos[indice].contador++;
-
-
-            guardarHabitos();
-
-            mostrarHabitos();
-
-        }
-
-
-
-        // Reiniciar hábito
 
         function reiniciarHabito(indice) {
 
-            habitos[indice].contador = 0;
+
+            const confirmar =
+                confirm(
+                    "¿Seguro que querés reiniciar la racha de este hábito?"
+                );
 
 
-            guardarHabitos();
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            datos.habitos[indice].racha = 0;
+
+            datos.habitos[indice].hecho = false;
+
+            datos.habitos[indice].ultimoDia = -1;
+
+
+            guardarDatos();
+
 
             mostrarHabitos();
 
@@ -384,9 +747,15 @@
 
 
 
-        // Borrar hábito
+        /*
+        =====================================================
+        BORRAR HÁBITO
+        =====================================================
+        */
+
 
         function borrarHabito(indice) {
+
 
             const confirmar =
                 confirm(
@@ -394,34 +763,260 @@
                 );
 
 
-            if (confirmar) {
+            if (!confirmar) {
 
-                habitos.splice(indice, 1);
-
-
-                guardarHabitos();
-
-                mostrarHabitos();
+                return;
 
             }
+
+
+            datos.habitos.splice(
+                indice,
+                1
+            );
+
+
+            guardarDatos();
+
+
+            mostrarHabitos();
 
         }
 
 
 
-        // Guardar información
+        /*
+        =====================================================
+        GUARDAR
+        =====================================================
+        */
 
-        function guardarHabitos() {
+
+        function guardarDatos() {
 
             localStorage.setItem(
 
-                "habitos",
+                "datosHabitos",
 
-                JSON.stringify(habitos)
+                JSON.stringify(datos)
 
             );
 
         }
+
+
+
+        /*
+        =====================================================
+        TEMPORIZADOR
+        =====================================================
+        */
+
+
+        function actualizarTemporizador() {
+
+
+            const elemento =
+                document.getElementById(
+                    "temporizador"
+                );
+
+
+            /*
+            Si todavía no empezó.
+            */
+
+            if (!datos.inicio) {
+
+                elemento.innerHTML = `
+
+                    <div
+                        class="sin-iniciar">
+
+                        El día comenzará cuando
+                        marques tu primer hábito.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            /*
+            Actualizar días.
+            */
+
+            actualizarDias();
+
+
+            const ahora =
+                obtenerTiempo();
+
+
+            const transcurrido =
+                ahora - datos.inicio;
+
+
+            const periodo =
+                24 *
+                60 *
+                60 *
+                1000;
+
+
+            const transcurridoEnDia =
+                transcurrido %
+                periodo;
+
+
+            let restante =
+                periodo -
+                transcurridoEnDia;
+
+
+            /*
+            Horas.
+            */
+
+            const horas =
+                Math.floor(
+                    restante /
+                    (60 * 60 * 1000)
+                );
+
+
+            /*
+            Minutos.
+            */
+
+            const minutos =
+                Math.floor(
+                    (
+                        restante %
+                        (60 * 60 * 1000)
+                    ) /
+                    (60 * 1000)
+                );
+
+
+            /*
+            Segundos.
+            */
+
+            const segundos =
+                Math.floor(
+                    (
+                        restante %
+                        (60 * 1000)
+                    ) /
+                    1000
+                );
+
+
+            /*
+            Agregar ceros.
+            */
+
+            const h =
+                String(horas)
+                .padStart(2, "0");
+
+
+            const m =
+                String(minutos)
+                .padStart(2, "0");
+
+
+            const s =
+                String(segundos)
+                .padStart(2, "0");
+
+
+            elemento.innerHTML = `
+
+                <div class="tiempo">
+
+                    ${h}hs ${m}min ${s}seg
+
+                </div>
+
+
+                <div class="dia">
+
+                    Día ${datos.diaActual}
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /*
+        =====================================================
+        BOTÓN TEMPORAL: AVANZAR 2 HORAS
+        =====================================================
+        */
+
+
+        function avanzarDosHoras() {
+
+
+            /*
+            Sumamos 2 horas al tiempo
+            virtual de la aplicación.
+            */
+
+            datos.desfasePrueba +=
+                2 *
+                60 *
+                60 *
+                1000;
+
+
+            guardarDatos();
+
+
+            /*
+            Actualizamos todo inmediatamente.
+            */
+
+            actualizarDias();
+
+            mostrarHabitos();
+
+            actualizarTemporizador();
+
+        }
+
+
+
+        /*
+        =====================================================
+        INICIO
+        =====================================================
+        */
+
+
+        actualizarDias();
+
+        mostrarHabitos();
+
+        actualizarTemporizador();
+
+
+        /*
+        Actualizar cada segundo.
+        */
+
+        setInterval(
+            actualizarTemporizador,
+            1000
+        );
 
     </script>
 
