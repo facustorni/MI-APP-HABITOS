@@ -23,7 +23,176 @@
             margin: 0;
             padding: 35px 25px;
             background-color: #f5f5f5;
+            color: #222;
+            transition: background-color 0.3s, color 0.3s;
         }
+
+
+        /* =========================================
+           MODO OSCURO
+        ========================================= */
+
+        body.modo-oscuro {
+            background-color: #121212;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .boton-nav {
+            background-color: #1e1e1e;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .boton-nav.activo {
+            background-color: #30343b;
+        }
+
+
+        body.modo-oscuro .fila {
+            background-color: #1e1e1e;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .actividad {
+            background-color: #1e1e1e;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .formulario {
+            background-color: #1e1e1e;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .formulario input {
+            background-color: #292929;
+            color: #eeeeee;
+            border-color: #555;
+        }
+
+
+        body.modo-oscuro .campo-hora input {
+            background-color: #292929;
+            color: #eeeeee;
+            border-color: #555;
+        }
+
+
+        body.modo-oscuro .sugerencias-habitos {
+            background-color: #242424;
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.5);
+        }
+
+
+        body.modo-oscuro .sugerencia {
+            background-color: #242424;
+            color: #eeeeee;
+            border-bottom-color: #444;
+        }
+
+
+        body.modo-oscuro .sugerencia:hover {
+            background-color: #333333;
+        }
+
+
+        body.modo-oscuro .sugerencia:active {
+            background-color: #3b3f45;
+        }
+
+
+        body.modo-oscuro .boton-agregar,
+        body.modo-oscuro .boton-hecho,
+        body.modo-oscuro .boton-completar,
+        body.modo-oscuro .boton-agregar-actividad {
+            background-color: #292929;
+            color: #eeeeee;
+        }
+
+
+        body.modo-oscuro .boton-borrar,
+        body.modo-oscuro .boton-reiniciar,
+        body.modo-oscuro .boton-dia,
+        body.modo-oscuro .boton-eliminar-actividad {
+            color: #eeeeee;
+        }
+
+
+        /* Verde = actividad/hábito realizado */
+
+        body.modo-oscuro .fila.hecho,
+        body.modo-oscuro .actividad.completada {
+            background-color: #3f9148;
+            color: white;
+        }
+
+
+        /* =========================================
+           BOTÓN MODO OSCURO
+        ========================================= */
+
+        .contenedor-modo-oscuro {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin-top: 70px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .boton-modo-oscuro {
+
+            border: none;
+
+            background: transparent;
+
+            color: #777;
+
+            font-size: 17px;
+
+            cursor: pointer;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            transition:
+                background-color 0.2s,
+                color 0.2s;
+        }
+
+
+        .boton-modo-oscuro:hover {
+
+            background-color: #e5e5e5;
+
+            color: #333;
+        }
+
+
+        body.modo-oscuro .boton-modo-oscuro {
+
+            color: #bbbbbb;
+        }
+
+
+        body.modo-oscuro .boton-modo-oscuro:hover {
+
+            background-color: #292929;
+
+            color: #eeeeee;
+        }
+
 
 
         /* =========================================
@@ -61,6 +230,8 @@
             min-width: 300px;
 
             min-height: 75px;
+
+            color: #222;
         }
 
 
@@ -133,6 +304,10 @@
             border-radius: 50%;
 
             cursor: pointer;
+
+            background-color: white;
+
+            color: #222;
         }
 
 
@@ -229,6 +404,10 @@
             border-radius: 13px;
 
             cursor: pointer;
+
+            background-color: #f0f0f0;
+
+            color: #222;
         }
 
 
@@ -352,6 +531,8 @@
             background: transparent;
 
             cursor: pointer;
+
+            color: inherit;
         }
 
 
@@ -452,6 +633,10 @@
             border-radius: 50%;
 
             cursor: pointer;
+
+            background-color: #f0f0f0;
+
+            color: #222;
         }
 
 
@@ -502,6 +687,10 @@
             border-radius: 15px;
 
             cursor: pointer;
+
+            background-color: white;
+
+            color: #222;
         }
 
 
@@ -541,7 +730,12 @@
             border: 1px solid #ccc;
 
             border-radius: 10px;
+
+            background-color: white;
+
+            color: #222;
         }
+
 
 
         /* =========================================
@@ -695,6 +889,8 @@
             cursor: pointer;
 
             background-color: #70d47a;
+
+            color: #111;
         }
 
 
@@ -805,6 +1001,13 @@
                 font-size: 22px;
 
                 padding: 22px 18px;
+            }
+
+
+            .contenedor-modo-oscuro {
+
+                margin-top: 50px;
+
             }
 
         }
@@ -1073,7 +1276,84 @@
 
 
 
+    <!-- =========================================
+         MODO OSCURO
+    ========================================= -->
+
+    <div class="contenedor-modo-oscuro">
+
+        <button
+            id="botonModoOscuro"
+            class="boton-modo-oscuro"
+            onclick="alternarModoOscuro()">
+
+            🌙 Modo oscuro
+
+        </button>
+
+    </div>
+
+
+
     <script>
+
+
+        /* =================================================
+           MODO OSCURO
+        ================================================= */
+
+
+        function cargarModoOscuro() {
+
+            const modoOscuro =
+                localStorage.getItem(
+                    "modoOscuro"
+                );
+
+
+            if (
+                modoOscuro === "true"
+            ) {
+
+                document.body.classList.add(
+                    "modo-oscuro"
+                );
+
+
+                document.getElementById(
+                    "botonModoOscuro"
+                ).textContent =
+                    "☀️ Modo claro";
+
+            }
+
+        }
+
+
+
+        function alternarModoOscuro() {
+
+            const estaActivo =
+                document.body.classList.toggle(
+                    "modo-oscuro"
+                );
+
+
+            localStorage.setItem(
+                "modoOscuro",
+                estaActivo
+            );
+
+
+            document.getElementById(
+                "botonModoOscuro"
+            ).textContent =
+                estaActivo
+                    ? "☀️ Modo claro"
+                    : "🌙 Modo oscuro";
+
+        }
+
 
 
         /* =================================================
@@ -2033,11 +2313,6 @@
                 );
 
 
-            /*
-            No borramos lo que el usuario
-            haya empezado a escribir.
-            */
-
             contenedor.innerHTML = "";
 
 
@@ -2552,6 +2827,9 @@
         /* =================================================
            INICIALIZACIÓN
         ================================================= */
+
+
+        cargarModoOscuro();
 
 
         actualizarHabitos();
