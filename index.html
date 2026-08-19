@@ -1049,7 +1049,7 @@
             class="boton-nav"
             onclick="mostrarPantalla('pomodoro')">
 
-            ⏱️ Pomodoro
+            ⏳ Pomodoro
 
         </button>
 
@@ -1273,7 +1273,7 @@
 
 
             <h1 class="titulo-pomodoro">
-                ⏱️ Pomodoro
+                ⏳ Pomodoro
             </h1>
 
 
@@ -2968,6 +2968,10 @@
 
         let pomodoroSegundosRestantes = 0;
 
+        let pomodoroAviso10Emitido = false;
+
+        let pomodoroFinTimestamp = null;
+
 
 
         /* =================================================
@@ -3356,6 +3360,17 @@
             pomodoroCorriendo = true;
 
 
+            /*
+             * Guardamos el momento exacto en el que termina
+             * la fase. Así el contador no se desincroniza
+             * si el navegador tarda un poco en ejecutar un tick.
+             */
+            pomodoroFinTimestamp =
+                Date.now() +
+                pomodoroSegundosRestantes *
+                1000;
+
+
             document.getElementById(
                 "botonPomodoroIniciar"
             ).disabled = true;
@@ -3400,6 +3415,24 @@
                 null;
 
 
+            if (pomodoroFinTimestamp !== null) {
+
+                pomodoroSegundosRestantes =
+                    Math.max(
+                        0,
+                        Math.ceil(
+                            (pomodoroFinTimestamp - Date.now()) /
+                            1000
+                        )
+                    );
+
+            }
+
+
+            pomodoroFinTimestamp =
+                null;
+
+
             pomodoroCorriendo =
                 false;
 
@@ -3430,53 +3463,68 @@
 
         function actualizarPomodoro() {
 
+            if (!pomodoroCorriendo) {
+                return;
+            }
+
+
+            const segundosCalculados =
+                Math.max(
+                    0,
+                    Math.ceil(
+                        (pomodoroFinTimestamp - Date.now()) /
+                        1000
+                    )
+                );
+
+
+            pomodoroSegundosRestantes =
+                segundosCalculados;
+
+
+            /*
+             * Usamos <= 10 y no === 10.
+             * Si el navegador salta de 11 a 9 por un pequeño
+             * retraso, el aviso igualmente se reproduce.
+             */
             if (
-                pomodoroSegundosRestantes > 0
+                pomodoroSegundosRestantes <= 10 &&
+                pomodoroSegundosRestantes > 0 &&
+                !pomodoroAviso10Emitido
             ) {
 
-                pomodoroSegundosRestantes--;
+                pomodoroAviso10Emitido = true;
 
 
-                /*
-                 * Cuando quedan exactamente 10 segundos,
-                 * avisamos una sola vez.
-                 */
-                if (
-                    pomodoroSegundosRestantes === 10 &&
-                    !pomodoroAviso10Emitido
-                ) {
+                if (pomodoroModo === "trabajo") {
 
-                    pomodoroAviso10Emitido = true;
-
-
-                    if (
-                        pomodoroModo === "trabajo"
-                    ) {
-
-                        sonarAvisoTrabajo();
-
-                    }
-
-                    else {
-
-                        sonarAvisoDescanso();
-
-                    }
+                    sonarAvisoTrabajo();
 
                 }
 
+                else {
+
+                    sonarAvisoDescanso();
+
+                }
+
+            }
+
+
+            if (pomodoroSegundosRestantes <= 0) {
+
+                pomodoroSegundosRestantes = 0;
 
                 actualizarPomodoroPantalla();
-
+                cambiarFasePomodoro();
                 return;
 
             }
 
 
-            cambiarFasePomodoro();
+            actualizarPomodoroPantalla();
 
         }
-
 
 
         /* =================================================
@@ -3496,6 +3544,11 @@
 
 
             sonarAlarma();
+
+
+            /* El aviso de 10 segundos vuelve a estar disponible
+               para la nueva fase. */
+            pomodoroAviso10Emitido = false;
 
 
             if (
@@ -3546,6 +3599,10 @@
                         60;
 
 
+                    pomodoroFinTimestamp = null;
+                    pomodoroAviso10Emitido = false;
+
+
                     document.getElementById(
                         "botonPomodoroIniciar"
                     ).disabled = false;
@@ -3582,6 +3639,12 @@
                     60;
 
             }
+
+
+            pomodoroFinTimestamp =
+                Date.now() +
+                pomodoroSegundosRestantes *
+                1000;
 
 
             actualizarPomodoroPantalla();
@@ -3679,6 +3742,10 @@
             pomodoroSegundosRestantes =
                 configuracion.trabajo *
                 60;
+
+
+            pomodoroFinTimestamp = null;
+            pomodoroAviso10Emitido = false;
 
 
             document.getElementById(
