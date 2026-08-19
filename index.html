@@ -1089,7 +1089,7 @@
             class="boton-nav"
             onclick="mostrarPantalla('pomodoro')">
 
-            ⏳ Pomodoro
+            ⏱️ Pomodoro
 
         </button>
 
@@ -1313,7 +1313,7 @@
 
 
             <h1 class="titulo-pomodoro">
-                ⏳ Pomodoro
+                ⏱️ Pomodoro
             </h1>
 
 
@@ -3279,6 +3279,125 @@
 
 
         /* =================================================
+           NOTIFICACIONES DEL SISTEMA
+        ================================================= */
+
+        let registroServiceWorkerPomodoro = null;
+
+
+        async function registrarNotificacionesPomodoro() {
+
+            if (!('serviceWorker' in navigator)) {
+                return;
+            }
+
+            try {
+
+                registroServiceWorkerPomodoro =
+                    await navigator.serviceWorker.register('service-worker.js');
+
+            }
+
+            catch (error) {
+
+                console.log('No se pudo registrar el Service Worker.', error);
+
+            }
+
+        }
+
+
+        async function solicitarPermisoNotificaciones() {
+
+            if (!('Notification' in window)) {
+                return false;
+            }
+
+            if (Notification.permission === 'granted') {
+                return true;
+            }
+
+            if (Notification.permission === 'denied') {
+                return false;
+            }
+
+            try {
+
+                const permiso = await Notification.requestPermission();
+
+                return permiso === 'granted';
+
+            }
+
+            catch (error) {
+
+                return false;
+
+            }
+
+        }
+
+
+        async function enviarNotificacionPomodoro(titulo, mensaje) {
+
+            if (!('Notification' in window)) {
+                return;
+            }
+
+            if (Notification.permission !== 'granted') {
+                return;
+            }
+
+            const opciones = {
+
+                body: mensaje,
+
+                icon: 'icon-192.png',
+
+                badge: 'icon-192.png',
+
+                tag: 'pomodoro-' + Date.now(),
+
+                renotify: true,
+
+                requireInteraction: true
+
+            };
+
+            try {
+
+                if (registroServiceWorkerPomodoro) {
+
+                    await registroServiceWorkerPomodoro.showNotification(
+                        titulo,
+                        opciones
+                    );
+
+                }
+
+                else {
+
+                    new Notification(titulo, opciones);
+
+                }
+
+            }
+
+            catch (error) {
+
+                try {
+                    new Notification(titulo, opciones);
+                }
+                catch (error2) {
+                    console.log('No se pudo mostrar la notificación.', error2);
+                }
+
+            }
+
+        }
+
+
+        /* =================================================
            LEER CONFIGURACIÓN
         ================================================= */
 
@@ -3350,6 +3469,13 @@
              * automática de celulares y navegadores.
              */
             desbloquearAudiosPomodoro();
+
+            /*
+             * Pedimos permiso con el clic de INICIAR.
+             * Es el momento correcto porque el navegador
+             * permite solicitarlo a partir de una acción del usuario.
+             */
+            solicitarPermisoNotificaciones();
 
 
             const configuracion =
@@ -3527,11 +3653,21 @@
 
                     sonarAvisoTrabajo();
 
+                    enviarNotificacionPomodoro(
+                        "⏱️ Pomodoro",
+                        "Faltan 10 segundos para terminar el tiempo de trabajo."
+                    );
+
                 }
 
                 else {
 
                     sonarAvisoDescanso();
+
+                    enviarNotificacionPomodoro(
+                        "⏱️ Pomodoro",
+                        "Faltan 10 segundos para terminar el tiempo de descanso."
+                    );
 
                 }
 
@@ -3571,6 +3707,25 @@
 
 
             sonarAlarma();
+
+
+            if (pomodoroModo === "trabajo") {
+
+                enviarNotificacionPomodoro(
+                    "⏱️ Pomodoro",
+                    "Tiempo de trabajo terminado. Comienza el tiempo de descanso."
+                );
+
+            }
+
+            else {
+
+                enviarNotificacionPomodoro(
+                    "⏱️ Pomodoro",
+                    "Tiempo de descanso terminado. Comienza el tiempo de trabajo."
+                );
+
+            }
 
 
             /* El aviso de 10 segundos vuelve a estar disponible
@@ -3850,6 +4005,9 @@
         /* =================================================
            INICIALIZACIÓN
         ================================================= */
+
+
+        registrarNotificacionesPomodoro();
 
 
         cargarModoOscuro();
