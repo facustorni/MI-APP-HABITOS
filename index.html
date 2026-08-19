@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mis hábitos</title>
+
+    <title>Hábitos y Organizador</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -15,12 +16,50 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 45px 25px;
+            padding: 35px 25px;
             background-color: #f5f5f5;
         }
 
+        /* =========================
+           NAVEGACIÓN
+        ========================= */
 
-        /* ENCABEZADO */
+        .navegacion {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 45px;
+        }
+
+        .boton-nav {
+            font-size: 25px;
+            font-weight: bold;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .boton-nav.activo {
+            background-color: #dce3e8;
+        }
+
+        /* =========================
+           PANTALLAS
+        ========================= */
+
+        .pantalla {
+            display: none;
+        }
+
+        .pantalla.activa {
+            display: block;
+        }
+
+        /* =========================
+           MIS HÁBITOS
+        ========================= */
 
         .encabezado {
             position: relative;
@@ -28,41 +67,24 @@
             text-align: center;
         }
 
-
         .titulo {
             font-size: 83px;
             font-weight: bold;
             margin: 0;
         }
 
-
-        /* BOTÓN AGREGAR */
-
         .boton-agregar {
             position: absolute;
-
             right: 0;
             top: 50%;
-
             transform: translateY(-50%);
-
             font-size: 58px;
-
             width: 98px;
             height: 98px;
-
             border: none;
             border-radius: 50%;
-
             cursor: pointer;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-
-        /* LISTA */
 
         .tabla {
             width: 100%;
@@ -70,956 +92,1718 @@
             margin: auto;
         }
 
-
-        /* CONTENEDOR DE CADA HÁBITO */
-
         .contenedor-habito {
             display: flex;
             align-items: center;
-
             margin-bottom: 20px;
         }
 
-
-        /* BOTÓN BORRAR */
-
         .boton-borrar {
             margin-right: 13px;
-
             font-size: 38px;
-
             width: 58px;
             height: 58px;
-
             border: none;
             background: transparent;
-
             cursor: pointer;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-
-        /* CUADRO DEL HÁBITO */
 
         .fila {
             flex: 1;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             background-color: white;
-
             padding: 33px;
-
             border-radius: 20px;
-
             transition: background-color 0.2s;
         }
-
-
-        /* HÁBITO HECHO */
 
         .fila.hecho {
             background-color: #70d47a;
         }
-
 
         .nombre-habito {
             font-size: 36px;
             font-weight: bold;
         }
 
-
-        /* RACHA */
-
         .racha {
             font-size: 36px;
             font-weight: bold;
-
             margin-right: 20px;
         }
 
-
-        /* BOTÓN HECHO */
-
         .boton-hecho {
             padding: 16px 26px;
-
             font-size: 29px;
-
             border: none;
             border-radius: 13px;
-
             cursor: pointer;
         }
-
 
         .boton-hecho:disabled {
             cursor: default;
         }
 
-
-        /* BOTÓN REINICIAR */
-
         .boton-reiniciar {
             margin-left: 13px;
-
             font-size: 36px;
-
             width: 58px;
             height: 58px;
-
             border: none;
-
             background: transparent;
-
             cursor: pointer;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-
-        /* TEMPORIZADOR */
+        /* =========================
+           TEMPORIZADOR
+        ========================= */
 
         .temporizador-contenedor {
             margin: 70px auto 20px auto;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             gap: 35px;
-
             font-weight: bold;
         }
-
 
         .tiempo {
             font-size: 34px;
         }
 
-
         .dia {
-            font-size: 34px;
+            font-size: 28px;
         }
 
+        /* =========================
+           ORGANIZADOR
+        ========================= */
 
-        /* MENSAJE ANTES DE COMENZAR */
+        .organizador {
+            max-width: 1000px;
+            margin: auto;
+        }
 
-        .sin-iniciar {
+        /*
+           TÍTULO + DÍA EN LA MISMA FILA
+        */
+
+        .encabezado-organizador {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+        }
+
+        .titulo-organizador {
+            font-size: 65px;
+            margin: 0;
+        }
+
+        .selector-dia {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .boton-dia {
+            font-size: 28px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .dia-seleccionado {
+            font-size: 30px;
+            font-weight: bold;
+            min-width: 180px;
             text-align: center;
+        }
 
-            margin-top: 70px;
+        /* =========================
+           ACTIVIDADES
+        ========================= */
 
-            font-size: 25px;
+        .lista-actividades {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
+        .actividad {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 18px;
+            padding: 20px;
+            transition: background-color 0.2s;
+        }
+
+        .actividad.completada {
+            background-color: #70d47a;
+        }
+
+        .horario {
+            width: 240px;
+            font-size: 28px;
             font-weight: bold;
         }
 
+        .descripcion {
+            flex: 1;
+            font-size: 30px;
+        }
 
-        /* BOTÓN DE PRUEBA */
+        .etiqueta-habito {
+            font-size: 18px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
 
-        .boton-prueba {
-            display: block;
-
-            margin: 25px auto;
-
-            padding: 15px 25px;
-
-            font-size: 22px;
-
+        .boton-completar {
+            margin-left: 15px;
+            font-size: 27px;
+            width: 58px;
+            height: 58px;
             border: none;
-
-            border-radius: 12px;
-
+            border-radius: 50%;
             cursor: pointer;
         }
 
-    </style>
-</head>
+        .boton-completar:disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
 
+        .boton-eliminar-actividad {
+            border: none;
+            background: transparent;
+            font-size: 30px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* =========================
+           AGREGAR ACTIVIDAD
+        ========================= */
+
+        .boton-agregar-actividad {
+            display: block;
+            margin: 35px auto;
+            font-size: 28px;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           FORMULARIO
+        ========================= */
+
+        .formulario {
+            display: none;
+            max-width: 700px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .formulario input {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 18px;
+            padding: 15px;
+            font-size: 22px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .texto-o {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           CAMPO ACTIVIDAD
+        ========================= */
+
+        .campo-actividad {
+            position: relative;
+        }
+
+        .sugerencias-habitos {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .sugerencia {
+            padding: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sugerencia:hover {
+            background-color: #f0f0f0;
+        }
+
+        .boton-guardar {
+            width: 100%;
+            padding: 17px;
+            font-size: 23px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background-color: #70d47a;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            font-size: 25px;
+            margin-top: 50px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
 
 <body>
 
 
-    <!-- TÍTULO Y BOTÓN AGREGAR -->
+    <!-- =========================
+         NAVEGACIÓN
+    ========================= -->
 
-    <div class="encabezado">
-
-        <h1 class="titulo">
-            Mis hábitos
-        </h1>
-
+    <div class="navegacion">
 
         <button
-            class="boton-agregar"
-            onclick="agregarHabito()">
+            id="navHabitos"
+            class="boton-nav activo"
+            onclick="mostrarPantalla('habitos')">
 
-            +
+            🔥 Mis hábitos
+
+        </button>
+
+        <button
+            id="navOrganizador"
+            class="boton-nav"
+            onclick="mostrarPantalla('organizador')">
+
+            🗓️ Organizador
 
         </button>
 
     </div>
 
 
-    <!-- LISTA DE HÁBITOS -->
+    <!-- =========================
+         MIS HÁBITOS
+    ========================= -->
 
     <div
-        id="tabla"
-        class="tabla">
+        id="pantallaHabitos"
+        class="pantalla activa">
+
+        <div class="encabezado">
+
+            <h1 class="titulo">
+                Mis hábitos
+            </h1>
+
+            <button
+                class="boton-agregar"
+                onclick="agregarHabito()">
+
+                +
+
+            </button>
+
+        </div>
+
+        <div
+            id="tabla"
+            class="tabla">
+        </div>
+
+        <div
+            id="temporizador"
+            class="temporizador-contenedor">
+        </div>
+
     </div>
 
 
-    <!-- TEMPORIZADOR -->
+    <!-- =========================
+         ORGANIZADOR
+    ========================= -->
 
     <div
-        id="temporizador"
-        class="temporizador-contenedor">
+        id="pantallaOrganizador"
+        class="pantalla">
+
+        <div class="organizador">
+
+
+            <!-- TÍTULO + DÍA -->
+
+            <div class="encabezado-organizador">
+
+                <h1 class="titulo-organizador">
+                    Organizador
+                </h1>
+
+                <div class="selector-dia">
+
+                    <button
+                        class="boton-dia"
+                        onclick="diaAnterior()">
+
+                        ◀
+
+                    </button>
+
+                    <div
+                        id="diaSeleccionado"
+                        class="dia-seleccionado">
+                    </div>
+
+                    <button
+                        class="boton-dia"
+                        onclick="diaSiguiente()">
+
+                        ▶
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVIDADES -->
+
+            <div
+                id="listaActividades"
+                class="lista-actividades">
+            </div>
+
+
+            <!-- AGREGAR -->
+
+            <button
+                class="boton-agregar-actividad"
+                onclick="mostrarFormulario()">
+
+                + Agregar actividad
+
+            </button>
+
+
+            <!-- FORMULARIO -->
+
+            <div
+                id="formulario"
+                class="formulario">
+
+                <input
+                    id="horaInicio"
+                    type="time">
+
+                <input
+                    id="horaFin"
+                    type="time">
+
+                <div class="texto-o">
+                    ¿Qué vas a hacer?
+                </div>
+
+                <div class="campo-actividad">
+
+                    <input
+                        id="descripcionActividad"
+                        type="text"
+                        placeholder="Escribí una actividad..."
+                        autocomplete="off"
+                        onfocus="mostrarSugerencias()"
+                        oninput="filtrarSugerencias()">
+
+                    <div
+                        id="sugerenciasHabitos"
+                        class="sugerencias-habitos">
+                    </div>
+
+                </div>
+
+                <button
+                    class="boton-guardar"
+                    onclick="guardarActividad()">
+
+                    Guardar actividad
+
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
 
-    <!-- BOTÓN TEMPORAL DE PRUEBA -->
-
-    <button
-        class="boton-prueba"
-        onclick="avanzarDosHoras()">
-
-        ⏩ +2 horas
-
-    </button>
+<script>
 
 
+    /* =================================================
+       NAVEGACIÓN
+    ================================================= */
 
-    <script>
+    function mostrarPantalla(pantalla) {
 
+        const habitos =
+            document.getElementById(
+                "pantallaHabitos"
+            );
 
-        /*
-        =====================================================
-        DATOS
-        =====================================================
-        */
+        const organizador =
+            document.getElementById(
+                "pantallaOrganizador"
+            );
 
+        const navHabitos =
+            document.getElementById(
+                "navHabitos"
+            );
 
-        let datos =
-            JSON.parse(
-                localStorage.getItem("datosHabitos")
+        const navOrganizador =
+            document.getElementById(
+                "navOrganizador"
             );
 
 
-        /*
-        Si no existen datos,
-        creamos la estructura inicial.
-        */
+        if (pantalla === "habitos") {
 
-        if (!datos) {
+            habitos.classList.add("activa");
+            organizador.classList.remove("activa");
 
-            datos = {
+            navHabitos.classList.add("activo");
+            navOrganizador.classList.remove("activo");
 
-                habitos: [],
+        } else {
 
-                inicio: null,
+            habitos.classList.remove("activa");
+            organizador.classList.add("activa");
 
-                diaActual: 0,
+            navHabitos.classList.remove("activo");
+            navOrganizador.classList.add("activo");
 
-                desfasePrueba: 0
-
-            };
-
-        }
-
-
-        /*
-        Compatibilidad con datos anteriores
-        */
-
-        if (datos.desfasePrueba === undefined) {
-
-            datos.desfasePrueba = 0;
+            mostrarOrganizador();
 
         }
 
+    }
 
 
-        /*
-        =====================================================
-        INICIO DEL CICLO
-        =====================================================
-        */
+    /* =================================================
+       DATOS HÁBITOS
+    ================================================= */
 
+    let datosHabitos =
+        JSON.parse(
+            localStorage.getItem(
+                "datosHabitos"
+            )
+        );
 
-        function iniciarCiclo() {
 
-            datos.inicio = obtenerTiempo();
+    if (!datosHabitos) {
 
-            datos.diaActual = 0;
+        datosHabitos = {
+            habitos: []
+        };
 
-            guardarDatos();
+    }
 
-        }
 
+    function guardarDatosHabitos() {
 
+        localStorage.setItem(
+            "datosHabitos",
+            JSON.stringify(datosHabitos)
+        );
 
-        /*
-        =====================================================
-        OBTENER TIEMPO
-        =====================================================
-        */
+    }
 
-        function obtenerTiempo() {
 
-            return Date.now() +
-                   datos.desfasePrueba;
+    /* =================================================
+       FECHAS
+    ================================================= */
 
-        }
+    function fechaLocal(fecha) {
 
+        const año =
+            fecha.getFullYear();
 
+        const mes =
+            String(
+                fecha.getMonth() + 1
+            ).padStart(2, "0");
 
-        /*
-        =====================================================
-        ACTUALIZAR DÍAS
-        =====================================================
-        */
+        const dia =
+            String(
+                fecha.getDate()
+            ).padStart(2, "0");
 
+        return `${año}-${mes}-${dia}`;
 
-        function actualizarDias() {
+    }
 
 
-            if (!datos.inicio) {
+    function obtenerFechaHoy() {
 
-                return;
+        return fechaLocal(
+            new Date()
+        );
 
-            }
+    }
 
 
-            const ahora =
-                obtenerTiempo();
+    function obtenerFechaMañana() {
 
+        const fecha =
+            new Date();
 
-            const tiempoTranscurrido =
-                ahora - datos.inicio;
+        fecha.setDate(
+            fecha.getDate() + 1
+        );
 
+        return fechaLocal(fecha);
 
-            const nuevoDia =
-                Math.floor(
-                    tiempoTranscurrido /
-                    (24 * 60 * 60 * 1000)
-                );
+    }
 
 
-            /*
-            Si comenzó un nuevo día
-            */
+    /* =================================================
+       ACTUALIZAR HÁBITOS
+    ================================================= */
 
-            if (
-                nuevoDia >
-                datos.diaActual
-            ) {
+    function actualizarHabitos() {
 
+        guardarDatosHabitos();
 
-                /*
-                Revisamos cada hábito.
-                */
+    }
 
-                datos.habitos.forEach(
-                    habito => {
 
+    /* =================================================
+       MOSTRAR HÁBITOS
+    ================================================= */
 
-                        /*
-                        Si no hizo el hábito
-                        durante el día anterior,
-                        pierde la racha.
-                        */
+    function mostrarHabitos() {
 
-                        if (
-                            habito.ultimoDia <
-                            datos.diaActual
-                        ) {
+        const tabla =
+            document.getElementById(
+                "tabla"
+            );
 
-                            habito.racha = 0;
+        tabla.innerHTML = "";
 
-                        }
+        const hoy =
+            obtenerFechaHoy();
 
 
-                        /*
-                        Todos vuelven a estar
-                        disponibles.
-                        */
+        datosHabitos.habitos.forEach(
+            (habito, indice) => {
 
-                        habito.hecho = false;
+                const hechoHoy =
+                    habito.ultimaFecha === hoy;
 
-                    }
-                );
 
+                const contenedor =
+                    document.createElement(
+                        "div"
+                    );
 
-                datos.diaActual =
-                    nuevoDia;
+                contenedor.className =
+                    "contenedor-habito";
 
 
-                guardarDatos();
+                contenedor.innerHTML = `
 
-            }
+                    <button
+                        class="boton-borrar"
+                        onclick="borrarHabito(${indice})">
 
-        }
+                        −
 
+                    </button>
 
 
-        /*
-        =====================================================
-        MOSTRAR HÁBITOS
-        =====================================================
-        */
+                    <div
+                        class="fila ${hechoHoy ? "hecho" : ""}">
 
+                        <span
+                            class="nombre-habito">
 
-        function mostrarHabitos() {
+                            ${habito.nombre}
 
+                        </span>
 
-            const tabla =
-                document.getElementById(
-                    "tabla"
-                );
 
-
-            tabla.innerHTML = "";
-
-
-            datos.habitos.forEach(
-                (habito, indice) => {
-
-
-                    const contenedor =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    contenedor.className =
-                        "contenedor-habito";
-
-
-                    contenedor.innerHTML = `
-
-
-                        <!-- BORRAR -->
-
-                        <button
-                            class="boton-borrar"
-                            onclick="borrarHabito(${indice})">
-
-                            −
-
-                        </button>
-
-
-                        <!-- HÁBITO -->
-
-                        <div
-                            class="fila ${habito.hecho ? "hecho" : ""}">
+                        <div>
 
                             <span
-                                class="nombre-habito">
+                                class="racha">
 
-                                ${habito.nombre}
+                                🔥 ${habito.racha}
 
                             </span>
 
 
-                            <div>
+                            <button
+                                class="boton-hecho"
+                                onclick="marcarHabito(${indice})"
+                                ${hechoHoy ? "disabled" : ""}>
 
-                                <span
-                                    class="racha">
+                                ${hechoHoy ? "✓" : "Hecho"}
 
-                                    🔥 ${habito.racha}
-
-                                </span>
-
-
-                                <button
-                                    class="boton-hecho"
-                                    onclick="marcarHabito(${indice})"
-                                    ${habito.hecho ? "disabled" : ""}>
-
-                                    ${habito.hecho
-                                        ? "✓"
-                                        : "Hecho"}
-
-                                </button>
-
-                            </div>
+                            </button>
 
                         </div>
 
-
-                        <!-- REINICIAR -->
-
-                        <button
-                            class="boton-reiniciar"
-                            onclick="reiniciarHabito(${indice})">
-
-                            ↺
-
-                        </button>
-
-                    `;
-
-
-                    tabla.appendChild(
-                        contenedor
-                    );
-
-                }
-            );
-
-        }
-
-
-
-        /*
-        =====================================================
-        MARCAR HÁBITO
-        =====================================================
-        */
-
-
-        function marcarHabito(indice) {
-
-
-            /*
-            Si todavía no comenzó ningún ciclo,
-            empieza ahora.
-            */
-
-            if (!datos.inicio) {
-
-                iniciarCiclo();
-
-            }
-
-
-            actualizarDias();
-
-
-            const habito =
-                datos.habitos[indice];
-
-
-            /*
-            No permitir marcar dos veces
-            en el mismo día.
-            */
-
-            if (habito.hecho) {
-
-                return;
-
-            }
-
-
-            /*
-            Marcar como hecho.
-            */
-
-            habito.hecho = true;
-
-
-            /*
-            Guardamos en qué día se realizó.
-            */
-
-            habito.ultimoDia =
-                datos.diaActual;
-
-
-            /*
-            Aumentamos la racha.
-            */
-
-            habito.racha++;
-
-
-            guardarDatos();
-
-
-            mostrarHabitos();
-
-        }
-
-
-
-        /*
-        =====================================================
-        AGREGAR HÁBITO
-        =====================================================
-        */
-
-
-        function agregarHabito() {
-
-
-            const nombre =
-                prompt(
-                    "Escribí el nuevo hábito:"
-                );
-
-
-            if (
-                nombre === null ||
-                nombre.trim() === ""
-            ) {
-
-                return;
-
-            }
-
-
-            const nuevoHabito = {
-
-                nombre:
-                    nombre.trim(),
-
-                racha:
-                    0,
-
-                hecho:
-                    false,
-
-                ultimoDia:
-                    -1
-
-            };
-
-
-            datos.habitos.push(
-                nuevoHabito
-            );
-
-
-            guardarDatos();
-
-
-            mostrarHabitos();
-
-        }
-
-
-
-        /*
-        =====================================================
-        REINICIAR RACHA
-        =====================================================
-        */
-
-
-        function reiniciarHabito(indice) {
-
-
-            const confirmar =
-                confirm(
-                    "¿Seguro que querés reiniciar la racha de este hábito?"
-                );
-
-
-            if (!confirmar) {
-
-                return;
-
-            }
-
-
-            datos.habitos[indice].racha = 0;
-
-            datos.habitos[indice].hecho = false;
-
-            datos.habitos[indice].ultimoDia = -1;
-
-
-            guardarDatos();
-
-
-            mostrarHabitos();
-
-        }
-
-
-
-        /*
-        =====================================================
-        BORRAR HÁBITO
-        =====================================================
-        */
-
-
-        function borrarHabito(indice) {
-
-
-            const confirmar =
-                confirm(
-                    "¿Seguro que querés borrar este hábito?"
-                );
-
-
-            if (!confirmar) {
-
-                return;
-
-            }
-
-
-            datos.habitos.splice(
-                indice,
-                1
-            );
-
-
-            guardarDatos();
-
-
-            mostrarHabitos();
-
-        }
-
-
-
-        /*
-        =====================================================
-        GUARDAR
-        =====================================================
-        */
-
-
-        function guardarDatos() {
-
-            localStorage.setItem(
-
-                "datosHabitos",
-
-                JSON.stringify(datos)
-
-            );
-
-        }
-
-
-
-        /*
-        =====================================================
-        TEMPORIZADOR
-        =====================================================
-        */
-
-
-        function actualizarTemporizador() {
-
-
-            const elemento =
-                document.getElementById(
-                    "temporizador"
-                );
-
-
-            /*
-            Si todavía no empezó.
-            */
-
-            if (!datos.inicio) {
-
-                elemento.innerHTML = `
-
-                    <div
-                        class="sin-iniciar">
-
-                        El día comenzará cuando
-                        marques tu primer hábito.
-
                     </div>
+
+
+                    <button
+                        class="boton-reiniciar"
+                        onclick="reiniciarHabito(${indice})">
+
+                        ↺
+
+                    </button>
 
                 `;
 
-                return;
+
+                tabla.appendChild(
+                    contenedor
+                );
 
             }
+        );
+
+    }
 
 
-            /*
-            Actualizar días.
-            */
+    /* =================================================
+       MARCAR HÁBITO
+    ================================================= */
 
-            actualizarDias();
+    function marcarHabito(indice) {
 
+        const habito =
+            datosHabitos.habitos[indice];
 
-            const ahora =
-                obtenerTiempo();
-
-
-            const transcurrido =
-                ahora - datos.inicio;
-
-
-            const periodo =
-                24 *
-                60 *
-                60 *
-                1000;
+        if (!habito) {
+            return false;
+        }
 
 
-            const transcurridoEnDia =
-                transcurrido %
-                periodo;
+        const hoy =
+            obtenerFechaHoy();
 
 
-            let restante =
-                periodo -
-                transcurridoEnDia;
+        if (
+            habito.ultimaFecha === hoy
+        ) {
+
+            return false;
+
+        }
 
 
-            /*
-            Horas.
-            */
+        habito.racha++;
 
-            const horas =
-                Math.floor(
-                    restante /
-                    (60 * 60 * 1000)
-                );
+        habito.ultimaFecha =
+            hoy;
 
 
-            /*
-            Minutos.
-            */
+        guardarDatosHabitos();
 
-            const minutos =
-                Math.floor(
-                    (
-                        restante %
-                        (60 * 60 * 1000)
-                    ) /
-                    (60 * 1000)
-                );
+        mostrarHabitos();
 
 
-            /*
-            Segundos.
-            */
+        return true;
 
-            const segundos =
-                Math.floor(
-                    (
-                        restante %
-                        (60 * 1000)
-                    ) /
-                    1000
-                );
+    }
 
 
-            /*
-            Agregar ceros.
-            */
+    /* =================================================
+       AGREGAR HÁBITO
+    ================================================= */
 
-            const h =
-                String(horas)
-                .padStart(2, "0");
+    function agregarHabito() {
 
-
-            const m =
-                String(minutos)
-                .padStart(2, "0");
+        const nombre =
+            prompt(
+                "Escribí el nuevo hábito:"
+            );
 
 
-            const s =
-                String(segundos)
-                .padStart(2, "0");
+        if (
+            nombre === null ||
+            nombre.trim() === ""
+        ) {
+
+            return;
+
+        }
 
 
-            elemento.innerHTML = `
+        datosHabitos.habitos.push({
 
-                <div class="tiempo">
+            nombre:
+                nombre.trim(),
 
-                    ${h}hs ${m}min ${s}seg
+            racha:
+                0,
 
-                </div>
+            ultimaFecha:
+                null
+
+        });
 
 
-                <div class="dia">
+        guardarDatosHabitos();
 
-                    Día ${datos.diaActual}
+        mostrarHabitos();
+
+    }
+
+
+    /* =================================================
+       REINICIAR HÁBITO
+    ================================================= */
+
+    function reiniciarHabito(indice) {
+
+        if (
+            !confirm(
+                "¿Seguro que querés reiniciar la racha?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        datosHabitos.habitos[indice].racha =
+            0;
+
+        datosHabitos.habitos[indice].ultimaFecha =
+            null;
+
+
+        guardarDatosHabitos();
+
+        mostrarHabitos();
+
+    }
+
+
+    /* =================================================
+       BORRAR HÁBITO
+    ================================================= */
+
+    function borrarHabito(indice) {
+
+        if (
+            !confirm(
+                "¿Seguro que querés borrar este hábito?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        datosHabitos.habitos.splice(
+            indice,
+            1
+        );
+
+
+        guardarDatosHabitos();
+
+        mostrarHabitos();
+
+    }
+
+
+    /* =================================================
+       TEMPORIZADOR
+    ================================================= */
+
+    function actualizarTemporizador() {
+
+        const ahora =
+            new Date();
+
+        const mañana =
+            new Date();
+
+
+        mañana.setDate(
+            mañana.getDate() + 1
+        );
+
+        mañana.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        const restante =
+            mañana.getTime() -
+            ahora.getTime();
+
+
+        const horas =
+            Math.floor(
+                restante / 3600000
+            );
+
+
+        const minutos =
+            Math.floor(
+                (restante % 3600000) /
+                60000
+            );
+
+
+        const segundos =
+            Math.floor(
+                (restante % 60000) /
+                1000
+            );
+
+
+        document.getElementById(
+            "temporizador"
+        ).innerHTML = `
+
+            <div class="tiempo">
+
+                ${String(horas).padStart(2, "0")}hs
+                ${String(minutos).padStart(2, "0")}min
+                ${String(segundos).padStart(2, "0")}seg
+
+            </div>
+
+            <div class="dia">
+
+                ${ahora.toLocaleDateString(
+                    "es-AR",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long"
+                    }
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =================================================
+       ORGANIZADOR
+    ================================================= */
+
+    let diaOrganizador = 0;
+
+
+    let actividades =
+        JSON.parse(
+            localStorage.getItem(
+                "actividadesOrganizador"
+            )
+        );
+
+
+    if (!actividades) {
+
+        actividades = {};
+
+    }
+
+
+    function guardarActividades() {
+
+        localStorage.setItem(
+            "actividadesOrganizador",
+            JSON.stringify(
+                actividades
+            )
+        );
+
+    }
+
+
+    function obtenerFechaSeleccionada() {
+
+        if (
+            diaOrganizador === 0
+        ) {
+
+            return obtenerFechaHoy();
+
+        }
+
+
+        return obtenerFechaMañana();
+
+    }
+
+
+    function nombreDia(fecha) {
+
+        const fechaObj =
+            new Date(
+                fecha + "T12:00:00"
+            );
+
+
+        return fechaObj
+            .toLocaleDateString(
+                "es-AR",
+                {
+                    weekday: "long"
+                }
+            )
+            .toUpperCase();
+
+    }
+
+
+    function mostrarOrganizador() {
+
+        const fecha =
+            obtenerFechaSeleccionada();
+
+
+        document.getElementById(
+            "diaSeleccionado"
+        ).textContent =
+            nombreDia(fecha);
+
+
+        mostrarActividades();
+
+    }
+
+
+    /* =================================================
+       CAMBIAR DÍA
+    ================================================= */
+
+    function diaAnterior() {
+
+        if (
+            diaOrganizador === 1
+        ) {
+
+            diaOrganizador = 0;
+
+            mostrarOrganizador();
+
+        }
+
+    }
+
+
+    function diaSiguiente() {
+
+        if (
+            diaOrganizador === 0
+        ) {
+
+            diaOrganizador = 1;
+
+            mostrarOrganizador();
+
+        }
+
+    }
+
+
+    /* =================================================
+       MOSTRAR ACTIVIDADES
+    ================================================= */
+
+    function mostrarActividades() {
+
+        const lista =
+            document.getElementById(
+                "listaActividades"
+            );
+
+
+        lista.innerHTML = "";
+
+
+        const fecha =
+            obtenerFechaSeleccionada();
+
+
+        const actividadesDelDia =
+            actividades[fecha] || [];
+
+
+        actividadesDelDia.sort(
+            (a, b) =>
+                a.inicio.localeCompare(
+                    b.inicio
+                )
+        );
+
+
+        if (
+            actividadesDelDia.length === 0
+        ) {
+
+            lista.innerHTML = `
+
+                <div class="mensaje-vacio">
+
+                    No tenés actividades
+                    programadas para este día.
 
                 </div>
 
             `;
 
+            return;
+
         }
 
 
+        actividadesDelDia.forEach(
+            (actividad, indice) => {
 
-        /*
-        =====================================================
-        BOTÓN TEMPORAL: AVANZAR 2 HORAS
-        =====================================================
-        */
-
-
-        function avanzarDosHoras() {
+                const elemento =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            /*
-            Sumamos 2 horas al tiempo
-            virtual de la aplicación.
-            */
-
-            datos.desfasePrueba +=
-                2 *
-                60 *
-                60 *
-                1000;
+                elemento.className =
+                    "actividad";
 
 
-            guardarDatos();
+                if (
+                    actividad.completada
+                ) {
+
+                    elemento.classList.add(
+                        "completada"
+                    );
+
+                }
 
 
-            /*
-            Actualizamos todo inmediatamente.
-            */
+                let etiquetaHabito = "";
 
-            actualizarDias();
+
+                if (
+                    actividad.habitoIndice !== null &&
+                    actividad.habitoIndice !== undefined
+                ) {
+
+                    etiquetaHabito = `
+
+                        <div class="etiqueta-habito">
+
+                            🔥 Hábito
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                const esHoy =
+                    fecha ===
+                    obtenerFechaHoy();
+
+
+                elemento.innerHTML = `
+
+                    <div class="horario">
+
+                        ${actividad.inicio}
+                        -
+                        ${actividad.fin}
+
+                    </div>
+
+
+                    <div class="descripcion">
+
+                        ${actividad.descripcion}
+
+                        ${etiquetaHabito}
+
+                    </div>
+
+
+                    <button
+                        class="boton-completar"
+                        onclick="completarActividad(${indice})"
+                        ${!esHoy || actividad.completada
+                            ? "disabled"
+                            : ""}>
+
+                        ${actividad.completada
+                            ? "✓"
+                            : "○"}
+
+                    </button>
+
+
+                    <button
+                        class="boton-eliminar-actividad"
+                        onclick="eliminarActividad(${indice})">
+
+                        ✕
+
+                    </button>
+
+                `;
+
+
+                lista.appendChild(
+                    elemento
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =================================================
+       FORMULARIO
+    ================================================= */
+
+    function mostrarFormulario() {
+
+        document.getElementById(
+            "formulario"
+        ).style.display =
+            "block";
+
+
+        const input =
+            document.getElementById(
+                "descripcionActividad"
+            );
+
+
+        input.value = "";
+
+        delete input.dataset.habitoIndice;
+
+    }
+
+
+    /* =================================================
+       SUGERENCIAS
+    ================================================= */
+
+    function mostrarSugerencias() {
+
+        filtrarSugerencias();
+
+    }
+
+
+    function filtrarSugerencias() {
+
+        const input =
+            document.getElementById(
+                "descripcionActividad"
+            );
+
+
+        const contenedor =
+            document.getElementById(
+                "sugerenciasHabitos"
+            );
+
+
+        const texto =
+            input.value
+                .trim()
+                .toLowerCase();
+
+
+        contenedor.innerHTML = "";
+
+
+        if (
+            datosHabitos.habitos.length === 0
+        ) {
+
+            contenedor.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        const resultados =
+            datosHabitos.habitos.filter(
+                habito =>
+                    habito.nombre
+                        .toLowerCase()
+                        .includes(texto)
+            );
+
+
+        if (
+            resultados.length === 0
+        ) {
+
+            contenedor.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        resultados.forEach(
+            habito => {
+
+                const indice =
+                    datosHabitos.habitos
+                        .indexOf(
+                            habito
+                        );
+
+
+                const elemento =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                elemento.className =
+                    "sugerencia";
+
+
+                elemento.textContent =
+                    "🔥 " +
+                    habito.nombre;
+
+
+                elemento.onclick =
+                    function() {
+
+                        seleccionarHabitoDesdeCampo(
+                            indice
+                        );
+
+                    };
+
+
+                contenedor.appendChild(
+                    elemento
+                );
+
+            }
+        );
+
+
+        contenedor.style.display =
+            "block";
+
+    }
+
+
+    function seleccionarHabitoDesdeCampo(
+        indice
+    ) {
+
+        const input =
+            document.getElementById(
+                "descripcionActividad"
+            );
+
+
+        input.value =
+            datosHabitos
+                .habitos[indice]
+                .nombre;
+
+
+        input.dataset.habitoIndice =
+            indice;
+
+
+        document.getElementById(
+            "sugerenciasHabitos"
+        ).style.display =
+            "none";
+
+    }
+
+
+    /* =================================================
+       GUARDAR ACTIVIDAD
+    ================================================= */
+
+    function guardarActividad() {
+
+        const inicio =
+            document.getElementById(
+                "horaInicio"
+            ).value;
+
+
+        const fin =
+            document.getElementById(
+                "horaFin"
+            ).value;
+
+
+        const input =
+            document.getElementById(
+                "descripcionActividad"
+            );
+
+
+        const descripcion =
+            input.value.trim();
+
+
+        if (
+            !inicio ||
+            !fin ||
+            !descripcion
+        ) {
+
+            alert(
+                "Completá todos los campos."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            fin <= inicio
+        ) {
+
+            alert(
+                "La hora de finalización debe ser posterior a la de inicio."
+            );
+
+            return;
+
+        }
+
+
+        const fecha =
+            obtenerFechaSeleccionada();
+
+
+        if (
+            !actividades[fecha]
+        ) {
+
+            actividades[fecha] = [];
+
+        }
+
+
+        let habitoIndice = null;
+
+
+        if (
+            input.dataset.habitoIndice !== undefined
+        ) {
+
+            habitoIndice =
+                Number(
+                    input.dataset.habitoIndice
+                );
+
+        }
+
+
+        actividades[fecha].push({
+
+            inicio:
+                inicio,
+
+            fin:
+                fin,
+
+            descripcion:
+                descripcion,
+
+            habitoIndice:
+                habitoIndice,
+
+            completada:
+                false
+
+        });
+
+
+        guardarActividades();
+
+
+        document.getElementById(
+            "horaInicio"
+        ).value = "";
+
+
+        document.getElementById(
+            "horaFin"
+        ).value = "";
+
+
+        input.value = "";
+
+        delete input.dataset.habitoIndice;
+
+
+        document.getElementById(
+            "sugerenciasHabitos"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "formulario"
+        ).style.display =
+            "none";
+
+
+        mostrarActividades();
+
+    }
+
+
+    /* =================================================
+       COMPLETAR ACTIVIDAD
+    ================================================= */
+
+    function completarActividad(indice) {
+
+        const fecha =
+            obtenerFechaSeleccionada();
+
+
+        if (
+            fecha !== obtenerFechaHoy()
+        ) {
+
+            return;
+
+        }
+
+
+        const lista =
+            actividades[fecha];
+
+
+        if (!lista) {
+
+            return;
+
+        }
+
+
+        const actividad =
+            lista[indice];
+
+
+        if (
+            actividad.completada
+        ) {
+
+            return;
+
+        }
+
+
+        actividad.completada =
+            true;
+
+
+        if (
+            actividad.habitoIndice !== null &&
+            actividad.habitoIndice !== undefined
+        ) {
+
+            marcarHabito(
+                actividad.habitoIndice
+            );
+
+        }
+
+
+        guardarActividades();
+
+        mostrarActividades();
+
+    }
+
+
+    /* =================================================
+       ELIMINAR ACTIVIDAD
+    ================================================= */
+
+    function eliminarActividad(indice) {
+
+        const fecha =
+            obtenerFechaSeleccionada();
+
+
+        if (
+            !actividades[fecha]
+        ) {
+
+            return;
+
+        }
+
+
+        actividades[fecha].splice(
+            indice,
+            1
+        );
+
+
+        guardarActividades();
+
+        mostrarActividades();
+
+    }
+
+
+    /* =================================================
+       CERRAR SUGERENCIAS
+    ================================================= */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const campo =
+                document.querySelector(
+                    ".campo-actividad"
+                );
+
+
+            const sugerencias =
+                document.getElementById(
+                    "sugerenciasHabitos"
+                );
+
+
+            if (
+                campo &&
+                !campo.contains(
+                    event.target
+                )
+            ) {
+
+                sugerencias.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    /* =================================================
+       INICIALIZACIÓN
+    ================================================= */
+
+    actualizarHabitos();
+
+    mostrarHabitos();
+
+    actualizarTemporizador();
+
+
+    setInterval(
+        actualizarTemporizador,
+        1000
+    );
+
+
+    setInterval(
+        () => {
+
+            actualizarHabitos();
 
             mostrarHabitos();
 
-            actualizarTemporizador();
 
-        }
-
-
-
-        /*
-        =====================================================
-        INICIO
-        =====================================================
-        */
+            const pantalla =
+                document.getElementById(
+                    "pantallaOrganizador"
+                );
 
 
-        actualizarDias();
+            if (
+                pantalla.classList.contains(
+                    "activa"
+                )
+            ) {
 
-        mostrarHabitos();
+                mostrarOrganizador();
 
-        actualizarTemporizador();
+            }
 
+        },
+        60000
+    );
 
-        /*
-        Actualizar cada segundo.
-        */
-
-        setInterval(
-            actualizarTemporizador,
-            1000
-        );
-
-    </script>
-
+</script>
 
 </body>
 </html>
